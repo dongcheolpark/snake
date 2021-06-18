@@ -7,9 +7,10 @@ class Maingame {
 private:
 	graphic * window;
 	Info * UserInfo;
+	void init();
+	void mv_snake();
 public:
 	Maingame();
-	void init();
 	void start();
 };
 #endif
