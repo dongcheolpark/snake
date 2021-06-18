@@ -2,11 +2,12 @@
 #define INFO_H
 class Info {
 private : 
-	const int Width = 10,Height = 20;
-	char ** data;
+	const int Width = 15,Height = 15;
 public:
+	int ** data;
 	Info();
-	Info Get_Data();
+	int getWidth();
+	int getHeight();
 };
 
 #endif

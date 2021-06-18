@@ -1,12 +1,12 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef GRAPHIC_H
+#define GRAPHIC_H
 #include "../info/info.h"
 
-class window {
+class graphic {
 private :
 	Info * UserData;
 public:
-	window(Info * a); 
+	graphic(Info * a); 
 	void draw();
 	void title();
 	void clear();
