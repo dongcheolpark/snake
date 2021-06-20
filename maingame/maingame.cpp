@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <unistd.h>
 #include "maingame.h"
 #include "../graphic/graphic.h"
@@ -51,15 +52,16 @@ void Maingame::mv_snake() {
 }
 
 Mv_dir Maingame::input() {
-	char tmp = getchar();
 	while(1) {
+		int tmp = getchar();
+		printf("%d",tmp);
 		switch (tmp)
 		{
-			case 75:
+			case 27916810:
 				return Mv_dir::left;
-			case 77:
+			case 27916710:
 				return Mv_dir::right;
-			case 72:
+			case 27916710:
 				return Mv_dir::up;
 			case 80:
 				return Mv_dir::down;
@@ -76,7 +78,13 @@ void Maingame::start() {
 	while (tmp--)
 	{
 		window->clear(); // 게임으로 넘어감
-		input();
 		window->draw();
+		UserInfo->setdir(input());
+		mv_snake();
 	}
+}
+
+double recusive(int n) {
+	if(n == 1) return n/n+2;
+	else return recusive(n-1) + n/n+2;
 }

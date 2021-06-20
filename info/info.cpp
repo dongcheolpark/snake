@@ -23,7 +23,7 @@ Mv_dir Info::getdir() {
 }
 
 vector<pair<int,int>> * Info::getSnakedata() {
-
+	return snake_data;
 }
 /* </getter> */
 
@@ -33,5 +33,9 @@ void Info::setSnakeData(int x,int y,int value) {
 	if(value == 1) {
 		snake_data->push_back(make_pair(x,y));
 	}
+}
+
+void Info::setdir(Mv_dir a) {
+	mv_dir = a;
 }
 /* </setter> */

@@ -17,5 +17,6 @@ public:
 	vector<pair<int,int>> * getSnakedata();
 	Mv_dir getdir();
 	void setSnakeData(int x,int y,int value);
+	void setdir(Mv_dir);
 };
 #endif
