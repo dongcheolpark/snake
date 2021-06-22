@@ -8,7 +8,7 @@ class Maingame {
 private:
 	graphic * window;
 	Info * UserInfo;
-	int time;
+	int time_;
 	void init();
 	void mv_snake();
 public:
@@ -16,5 +16,6 @@ public:
 	void start();
 	int getch();
 	Mv_dir input();
+	void createRandomGoal();
 };
 #endif

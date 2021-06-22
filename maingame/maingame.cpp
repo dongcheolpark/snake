@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdio>
 #include <unistd.h>
+#include <cstdlib>
+#include <ctime>
 #include "maingame.h"
 #include "../graphic/graphic.h"
 
@@ -64,6 +66,9 @@ void Maingame::mv_snake() {
 		UserInfo->data[tmp.first][tmp.second] = 0; 
 		snakeData->erase(snakeData->begin()); //꼬리 부분 삭제
 	}
+	else {
+		createRandomGoal();
+	}
 	UserInfo->setSnakeData(x,y,1);//머리부분 이동
 }
 
@@ -90,6 +95,17 @@ Mv_dir Maingame::input() {
 			}
 		}
 	}
+}
+
+void Maingame::createRandomGoal() {
+	srand(unsigned(time(NULL)));
+	int x,y;
+	do {
+		x = rand()%UserInfo->getWidth();
+		y = rand()%UserInfo->getHeight(); // 좌표설정
+	}while(UserInfo->data[x][y] != 0);
+
+	UserInfo->data[x][y] = 2;
 }
 
 void Maingame::start() {
