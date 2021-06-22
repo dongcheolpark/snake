@@ -9,6 +9,8 @@ public:
 	graphic(Info * a); 
 	void draw();
 	void title();
+	void readfile(string a);
+	void endTitle();
 	void clear();
 };
 

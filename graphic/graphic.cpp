@@ -37,8 +37,8 @@ void graphic::draw() {
 	cout<<endl;
 
 }
-void graphic::title() {
-	ifstream TitleFile("./graphic/format.txt");
+void graphic::readfile(string a) {
+	ifstream TitleFile(a);
 	if(TitleFile.is_open()) {
 		while(!TitleFile.eof()) {
 			string str;
@@ -47,6 +47,14 @@ void graphic::title() {
 		}
 		TitleFile.close();
 	}
+}
+void graphic::title() {
+	readfile("./graphic/format.txt");
+}
+
+void graphic::endTitle() {
+	readfile("./graphic/endformat.txt");
+	cout<<"your score is : "<<UserData->getSnakedata()->size()-3<<endl; 
 }
 void graphic::clear() {
 	cout << "\x1B[2J\x1B[H";
