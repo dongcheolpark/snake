@@ -38,7 +38,24 @@ int Maingame::getch(void)
 	return ch;
 }
 
-void Maingame::mv_snake() {
+void Maingame::update_data(pair<int,int > pos) {
+	int x,y;
+	x = pos.first;
+	y = pos.second;
+	vector<pair<int,int> > * snakeData = UserInfo->getSnakedata();
+	if(!(UserInfo->data[x][y] == 2)) {
+		pair<int,int> tmp = snakeData->front();
+		UserInfo->data[tmp.first][tmp.second] = 0; 
+		snakeData->erase(snakeData->begin()); //꼬리 부분 삭제
+	}
+	else {
+		createRandomGoal();
+	}
+	UserInfo->setSnakeData(x,y,1);//머리부분 이동
+
+}
+
+pair<int,int > Maingame::mv_snake() {
 	int x,y;
 	vector<pair<int,int> > * snakeData = UserInfo->getSnakedata();
 	switch(UserInfo->getdir()) {
@@ -61,15 +78,7 @@ void Maingame::mv_snake() {
 	}
 	x = snakeData->back().first + x;
 	y = snakeData->back().second + y;
-	if(!(UserInfo->data[x][y] == 2)) {
-		pair<int,int> tmp = snakeData->front();
-		UserInfo->data[tmp.first][tmp.second] = 0; 
-		snakeData->erase(snakeData->begin()); //꼬리 부분 삭제
-	}
-	else {
-		createRandomGoal();
-	}
-	UserInfo->setSnakeData(x,y,1);//머리부분 이동
+	return make_pair(x,y);
 }
 
 Mv_dir Maingame::input() {
@@ -97,6 +106,16 @@ Mv_dir Maingame::input() {
 	}
 }
 
+bool Maingame::colidTest(pair<int,int > pos) {
+	if(pos.first >= UserInfo->getWidth() || pos.first < 0 || pos.second >= UserInfo->getWidth() || pos.second < 0) {
+		return 1;
+	}
+	else if(UserInfo->data[pos.first][pos.second] == 1) {
+		return 1;
+	}
+	return 0;
+}
+
 void Maingame::createRandomGoal() {
 	srand(unsigned(time(NULL)));
 	int x,y;
@@ -118,6 +137,12 @@ void Maingame::start() {
 		window->clear(); // 게임으로 넘어감
 		window->draw();
 		UserInfo->setdir(input());
-		mv_snake();
+		pair<int,int > a = mv_snake();
+		if(colidTest(a)) {
+			window->clear();
+			window->endTitle();
+			return;
+		}
+		update_data(a);
 	}
 }

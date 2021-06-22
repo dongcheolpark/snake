@@ -10,12 +10,14 @@ private:
 	Info * UserInfo;
 	int time_;
 	void init();
-	void mv_snake();
+	pair<int,int > mv_snake();
+	void update_data(pair<int,int > );
+	void createRandomGoal();
+	bool colidTest(pair<int,int >);
+	int getch();
+	Mv_dir input();
 public:
 	Maingame();
 	void start();
-	int getch();
-	Mv_dir input();
-	void createRandomGoal();
 };
 #endif
