@@ -14,7 +14,7 @@ public:
 	Info(int width,int height);
 	int getWidth();
 	int getHeight();
-	vector<pair<int,int>> * getSnakedata();
+	vector<pair<int,int> > * getSnakedata();
 	Mv_dir getdir();
 	void setSnakeData(int x,int y,int value);
 	void setdir(Mv_dir);

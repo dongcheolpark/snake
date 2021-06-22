@@ -20,9 +20,25 @@ void Maingame::init() {
 	//먹이 위치 설정
 }
 
+int Maingame::getch(void)
+{
+	int ch;
+	struct termios old;
+	struct termios newone;
+	tcgetattr(0, &old);
+	newone = old;
+	newone.c_lflag &= ~(ICANON | ECHO);
+	newone.c_cc[VMIN] = 1;
+	newone.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSAFLUSH, &newone);
+	ch = getchar();
+	tcsetattr(0, TCSAFLUSH, &old);
+	return ch;
+}
+
 void Maingame::mv_snake() {
 	int x,y;
-	vector<pair<int,int>> * snakeData = UserInfo->getSnakedata();
+	vector<pair<int,int> > * snakeData = UserInfo->getSnakedata();
 	switch(UserInfo->getdir()) {
 		case Mv_dir::up:
 			x = 1;
@@ -43,28 +59,35 @@ void Maingame::mv_snake() {
 	}
 	x = snakeData->back().first + x;
 	y = snakeData->back().second + y;
-	UserInfo->setSnakeData(x,y,1);//머리부분 이동
-	if(!UserInfo->data[x][y] == 2) {
+	if(!(UserInfo->data[x][y] == 2)) {
 		pair<int,int> tmp = snakeData->front();
 		UserInfo->data[tmp.first][tmp.second] = 0; 
 		snakeData->erase(snakeData->begin()); //꼬리 부분 삭제
 	}
+	UserInfo->setSnakeData(x,y,1);//머리부분 이동
 }
 
 Mv_dir Maingame::input() {
 	while(1) {
-		int tmp = getchar();
-		printf("%d",tmp);
-		switch (tmp)
-		{
-			case 27916810:
+		int tmp = getch();
+		if(tmp == 91) {
+			tmp = getch();
+			if(tmp == 68&&this->UserInfo->getdir() != Mv_dir::right) {
+				cout<<"left"<<endl;
 				return Mv_dir::left;
-			case 27916710:
+			}
+			else if(tmp == 67&&this->UserInfo->getdir() != Mv_dir::left) {
+				cout<<"right"<<endl;
 				return Mv_dir::right;
-			case 27916710:
+			}
+			else if(tmp == 66&&this->UserInfo->getdir() != Mv_dir::down) {
+				cout<<"up"<<endl;
 				return Mv_dir::up;
-			case 80:
+			}
+			else if(tmp == 65&&this->UserInfo->getdir() != Mv_dir::up) {
+				cout<<"down"<<endl;
 				return Mv_dir::down;
+			}
 		}
 	}
 }
@@ -72,19 +95,13 @@ Mv_dir Maingame::input() {
 void Maingame::start() {
 	window->clear(); // 타이틀 생성
 	window->title();
-	getchar();
+	getch();
 	init();
-	int tmp = 5;
-	while (tmp--)
+	while (1)
 	{
 		window->clear(); // 게임으로 넘어감
 		window->draw();
 		UserInfo->setdir(input());
 		mv_snake();
 	}
-}
-
-double recusive(int n) {
-	if(n == 1) return n/n+2;
-	else return recusive(n-1) + n/n+2;
 }

@@ -1,5 +1,6 @@
 #ifndef MAINGAME_H
 #define MAINGAME_H
+#include <termios.h>
 #include "../info/info.h"
 #include "../graphic/graphic.h"
 
@@ -13,6 +14,7 @@ private:
 public:
 	Maingame();
 	void start();
+	int getch();
 	Mv_dir input();
 };
 #endif

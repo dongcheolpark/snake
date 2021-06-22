@@ -4,7 +4,7 @@ Info::Info(int width, int height) {
 	Width = width;
 	Height = height;
 	data = new int * [Width];
-	snake_data = new vector<pair<int,int>>;
+	snake_data = new vector<pair<int,int> >;
 	for(int i = 0;i<Width;i++) {
 		data[i] = new int[Height];
 	}
@@ -22,7 +22,7 @@ Mv_dir Info::getdir() {
 	return mv_dir;
 }
 
-vector<pair<int,int>> * Info::getSnakedata() {
+vector<pair<int,int> > * Info::getSnakedata() {
 	return snake_data;
 }
 /* </getter> */
