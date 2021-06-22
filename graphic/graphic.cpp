@@ -54,6 +54,7 @@ void graphic::title() {
 
 void graphic::endTitle() {
 	readfile("./graphic/endformat.txt");
+	cout<<"your score is : "<<UserData->getSnakedata()->size()-3<<endl; 
 }
 void graphic::clear() {
 	cout << "\x1B[2J\x1B[H";
