@@ -3,8 +3,12 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <ctime>
+#include <thread>
+#include <unistd.h>
 #include "maingame.h"
 #include "../graphic/graphic.h"
+
+using std::thread;
 
 Maingame::Maingame() {
 	UserInfo = new Info(15,15); //판 사이즈 설정
@@ -87,19 +91,15 @@ Mv_dir Maingame::input() {
 		if(tmp == 91) {
 			tmp = getch();
 			if(tmp == 68&&this->UserInfo->getdir() != Mv_dir::right) {
-				cout<<"left"<<endl;
 				return Mv_dir::left;
 			}
 			else if(tmp == 67&&this->UserInfo->getdir() != Mv_dir::left) {
-				cout<<"right"<<endl;
 				return Mv_dir::right;
 			}
 			else if(tmp == 66&&this->UserInfo->getdir() != Mv_dir::down) {
-				cout<<"up"<<endl;
 				return Mv_dir::up;
 			}
 			else if(tmp == 65&&this->UserInfo->getdir() != Mv_dir::up) {
-				cout<<"down"<<endl;
 				return Mv_dir::down;
 			}
 		}
@@ -132,11 +132,17 @@ void Maingame::start() {
 	window->title();
 	getch();
 	init();
+	thread t1(
+		[](Info * a,Maingame * b) {
+			while(1) {
+				a->setdir(b->input());
+			}
+		},UserInfo,this);
+	t1.detach();
 	while (1)
 	{
 		window->clear(); // 게임으로 넘어감
 		window->draw();
-		UserInfo->setdir(input());
 		pair<int,int > a = mv_snake();
 		if(colidTest(a)) {
 			window->clear();
@@ -144,5 +150,6 @@ void Maingame::start() {
 			return;
 		}
 		update_data(a);
+		sleep(1);
 	}
 }
